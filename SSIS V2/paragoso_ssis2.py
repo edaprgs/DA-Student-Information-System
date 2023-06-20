@@ -19,6 +19,28 @@ class App(customtkinter.CTk):
         self.title("SSIS version 2.0")
         self.geometry("800x600")
 
+        conn = sqlite3.connect('studentdata.db')
+        cursor = conn.cursor()
+    # create student table 
+        create_studenttable = '''CREATE TABLE IF NOT EXISTS student_data(
+                        student_id TEXT NOT NULL PRIMARY KEY,
+                        last_name TEXT NOT NULL,
+                        first_name TEXT NOT NULL,
+                        middle_name TEXT NOT NULL,
+                        gender TEXT NOT NULL,
+                        year_level TEXT NOT NULL,
+                        course TEXT NOT NULL,
+                        contact_number INTEGER,
+                        registration_date TEXT DEFAULT CURRENT_TIMESTAMP)'''
+        conn.execute(create_studenttable)
+    # create course table 
+        create_coursetable = '''CREATE TABLE IF NOT EXISTS courses(
+                        course_code TEXT NOT NULL PRIMARY KEY,
+                        course TEXT NOT NULL)'''
+        conn.execute(create_coursetable)
+        conn.commit()
+        conn.close()
+
     # configure grid layout
         self.grid_columnconfigure(0,weight=1)
         self.grid_rowconfigure(0,weight=0)

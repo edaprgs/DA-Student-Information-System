@@ -22,21 +22,12 @@ class App(customtkinter.CTk):
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
     # create student table 
-        create_studenttable = '''CREATE TABLE IF NOT EXISTS student_data(
-                        student_id TEXT NOT NULL PRIMARY KEY,
-                        last_name TEXT NOT NULL,
-                        first_name TEXT NOT NULL,
-                        middle_name TEXT NOT NULL,
-                        gender TEXT NOT NULL,
-                        year_level TEXT NOT NULL,
-                        course TEXT NOT NULL,
-                        contact_number INTEGER,
-                        registration_date TEXT DEFAULT CURRENT_TIMESTAMP)'''
+        create_studenttable = '''CREATE TABLE IF NOT EXISTS student_data(student_id TEXT NOT NULL PRIMARY KEY,last_name TEXT NOT NULL,first_name TEXT NOT NULL,middle_name TEXT NOT NULL,
+                        gender TEXT NOT NULL,year_level TEXT NOT NULL,course TEXT NOT NULL,contact_number INTEGER,registration_date TEXT DEFAULT CURRENT_TIMESTAMP)'''
         conn.execute(create_studenttable)
+
     # create course table 
-        create_coursetable = '''CREATE TABLE IF NOT EXISTS courses(
-                        course_code TEXT NOT NULL PRIMARY KEY,
-                        course TEXT NOT NULL)'''
+        create_coursetable = '''CREATE TABLE IF NOT EXISTS courses(course_code TEXT NOT NULL PRIMARY KEY,course TEXT NOT NULL)'''
         conn.execute(create_coursetable)
         conn.commit()
         conn.close()
@@ -57,7 +48,7 @@ class App(customtkinter.CTk):
         self.tabview.add("Add Student")
         self.tabview.add("Add Course")
         self.tabview.add("List")
-    
+        
 #======================================== ADD STUDENT TABVIEW ========================================#
     # add student form
         self.studentID_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Student ID:",font=("Arial",14))
@@ -128,8 +119,8 @@ class App(customtkinter.CTk):
     # add course information
         self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="transparent",border_width=1,width=90,command=self.add_course)
         self.savecourse_btn.place(x=540,y=160)
+
 #======================================== LIST TABVIEW ========================================#
-    # list tabview menu
         self.studenttab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="List of Students",font=("Arial",14,"bold"),width=180,height=40,command=self.display_studentlist)
         self.studenttab_btn.place(x=260,y=120)
         self.coursetab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="List of Courses",font=("Arial",14,"bold"),width=180,height=40,command=self.display_courselist)
@@ -146,7 +137,6 @@ class App(customtkinter.CTk):
         style.map("Treeview",background=[("selected","DodgerBlue3")])
 
 #======================================== ADD STUDENT ========================================#
-    # clear input-fields
     def clear_student_inputs(self):
         self.studentID_entry.delete(0, END)
         self.fName_entry.delete(0, END)
@@ -196,9 +186,7 @@ class App(customtkinter.CTk):
         self.table_frame.place(x=30,y=50,width=795,height=370)
         self.y_scroll = customtkinter.CTkScrollbar(self.table_frame,orientation=VERTICAL)
         self.x_scroll = customtkinter.CTkScrollbar(self.table_frame,orientation=HORIZONTAL)
-        self.student_table = ttk.Treeview(self.table_frame,columns=("Student ID","Name",
-                                                        "Gender","Year Level","Course","Contact No.","Registration Date"),
-                                                        yscrollcommand=self.y_scroll.set,xscrollcommand=self.x_scroll.set)
+        self.student_table = ttk.Treeview(self.table_frame,columns=("Student ID","Name","Gender","Year Level","Course","Contact No.","Registration Date"),yscrollcommand=self.y_scroll.set,xscrollcommand=self.x_scroll.set)
         self.y_scroll.configure(command=self.student_table.yview)
         self.x_scroll.configure(command=self.student_table.xview)
         self.y_scroll.pack(side=RIGHT,fill=Y)
@@ -333,14 +321,8 @@ class App(customtkinter.CTk):
         cursor.execute("SELECT * FROM student_data WHERE student_id = '" + str(id_details)+"'")
         data = cursor.fetchall()
     # global variables for the entries
-        global studentID_entry
-        global fName_entry
-        global mName_entry
-        global lName_entry
-        global gender_entry
-        global ylevel_entry
-        global course_entry
-        global contactnum_entry
+        global studentID_entry; global fName_entry; global mName_entry; global lName_entry; global gender_entry; global ylevel_entry; global course_entry; global contactnum_entry
+
     # edit student form
         self.studentID_label = customtkinter.CTkLabel(self.edit_window,text="Student ID:",font=("Arial",14))
         self.studentID_label.place(x=50,y=50)
@@ -532,11 +514,8 @@ class App(customtkinter.CTk):
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])
         course_data = str(code_details)
-        cursor.execute('''UPDATE courses SET 
-            course_code = :course_id,
-            course = :course
-            WHERE course_code = :course_code''',
-            {'course_id': self.coursecode_entry.get().upper(),'course': self.course_entry.get().upper(),'course_code': course_data})
+        cursor.execute('''UPDATE courses SET course_code = :course_id,course = :course WHERE course_code = :course_code''',
+                       {'course_id': self.coursecode_entry.get().upper(),'course': self.course_entry.get().upper(),'course_code': course_data})
         conn.commit()
         conn.close()    
         self.edit_window.destroy()
@@ -555,8 +534,7 @@ class App(customtkinter.CTk):
         data = cursor.fetchall()
 
     # global variables for the entries
-        global coursecode_entry
-        global course_entry
+        global coursecode_entry; global course_entry
     # add course form
         self.coursecode_label = customtkinter.CTkLabel(self.edit_window,text="Course Code:",font=("Arial",12))
         self.coursecode_label.place(x=25,y=100)

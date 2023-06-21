@@ -7,6 +7,7 @@ from tkinter import ttk
 import tkinter.messagebox as tkMessageBox
 import customtkinter
 import sqlite3
+from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("light") 
 customtkinter.set_default_color_theme("dark-blue") 
@@ -17,8 +18,8 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("SSIS version 2.0")
-        self.geometry("800x600")
-
+        self.geometry("800x600+0+0")
+        
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
     # create student table 
@@ -39,11 +40,13 @@ class App(customtkinter.CTk):
     # header frame 
         self.header_frame = customtkinter.CTkFrame(self)
         self.header_frame.grid(row=0,column=0,padx=10,pady=30)
-        self.header_label = customtkinter.CTkLabel(self.header_frame,text="STUDENT INFORMATION SYSTEM",font=("Arial",22,"bold"),fg_color="transparent",width=700,height=55)
+        self.header_label = customtkinter.CTkLabel(self.header_frame,text="STUDENT INFORMATION SYSTEM",font=("Arial",22,"bold"),fg_color="LightSkyBlue4",text_color="white",width=700,height=55)
+        self.header_label.configure(corner_radius=10,bg_color="white smoke")
         self.header_label.grid(row=0,column=0)
 
     # tabview
         self.tabview = customtkinter.CTkTabview(self,width=700,height=450)
+        self.tabview.configure(fg_color="azure2",bg_color="white smoke",segmented_button_fg_color="LightSkyBlue3",segmented_button_selected_color="LightSkyBlue4",segmented_button_unselected_color="LightSkyBlue3",segmented_button_unselected_hover_color="LightSkyBlue4",text_color="white")
         self.tabview.grid(row=1,column=0)
         self.tabview.add("Add Student")
         self.tabview.add("Add Course")
@@ -87,7 +90,7 @@ class App(customtkinter.CTk):
         self.male_rbtn.place(x=250,y=295)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
-        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=False,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],variable=self.ylevel_var)
+        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",dynamic_resizing=False,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],variable=self.ylevel_var)
         self.ylevel_option.place(x=490,y=110)
     # student course
         conn = sqlite3.connect('studentdata.db')
@@ -98,14 +101,14 @@ class App(customtkinter.CTk):
         conn.commit()
         conn.close()
         self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=False,values=course_list,variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",dynamic_resizing=False,values=course_list,variable=self.course_var)
         self.course_option.place(x=490,y=170)
     # student contact number
         self.contactnum_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 09351454490",width=140,height=30)
         self.contactnum_entry.place(x=490,y=230)
     # add student information
-        self.savebtn = customtkinter.CTkButton(self.tabview.tab("Add Student"),text="Add Student",text_color=("black","white"),fg_color="transparent",border_width=1,width=90,command=self.add_student)
-        self.savebtn.place(x=540,y=290)
+        self.savebtn = customtkinter.CTkButton(self.tabview.tab("Add Student"),text="Add Student",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_student)
+        self.savebtn.place(x=528,y=290)
 #======================================== ADD COURSE TABVIEW ========================================#       
     # add course form
         self.coursecode_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course Code:",font=("Arial",14))
@@ -117,24 +120,24 @@ class App(customtkinter.CTk):
         self.course_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",width=470,height=30)
         self.course_entry.place(x=160,y=110)
     # add course information
-        self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="transparent",border_width=1,width=90,command=self.add_course)
+        self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_course)
         self.savecourse_btn.place(x=540,y=160)
 
 #======================================== LIST TABVIEW ========================================#
-        self.studenttab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="List of Students",font=("Arial",14,"bold"),width=180,height=40,command=self.display_studentlist)
-        self.studenttab_btn.place(x=260,y=120)
-        self.coursetab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="List of Courses",font=("Arial",14,"bold"),width=180,height=40,command=self.display_courselist)
-        self.coursetab_btn.place(x=260,y=180)
+        self.studenttab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="LIST OF STUDENTS",fg_color="LightSkyBlue3",hover_color="LightSkyBlue4",text_color="black",font=("Arial",13,"bold"),corner_radius=20,width=195,height=45,command=self.display_studentlist)
+        self.studenttab_btn.place(x=260,y=125)
+        self.coursetab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="LIST OF COURSES",fg_color="LightSkyBlue3",hover_color="LightSkyBlue4",text_color="black",font=("Arial",13,"bold"),corner_radius=20,width=195,height=45,command=self.display_courselist)
+        self.coursetab_btn.place(x=260,y=200)
 
     # table style
     def table_style(self):
         style=ttk.Style()
         style.theme_use("vista")
-        style.configure("Treeview",bg="white",fg="black",rowheight=35,fieldbackground="white")
-        style.configure("Treeview.Heading", font=('Calibri', 12,'bold')) # Modify the font of the headings
-        style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 11)) # Modify the font of the body
+        style.configure("Treeview",bg="white",fg="white",rowheight=35,fieldbackground="white")
+        style.configure("Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 12)) # Modify the font of the body
         style.layout("Treeview", [('Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
-        style.map("Treeview",background=[("selected","DodgerBlue3")])
+        style.map("Treeview",background=[("selected","LightSkyBlue4")])
 
 #======================================== ADD STUDENT ========================================#
     def clear_student_inputs(self):
@@ -175,10 +178,10 @@ class App(customtkinter.CTk):
     # list of students frame
         self.studentlist_frame = customtkinter.CTkFrame(self.tabview.tab("List"),width=680,height=390,fg_color="transparent")
         self.studentlist_frame.grid(row=1,column=0)
-        self.studentlist_label = tk.Label(self.studentlist_frame,text="STUDENTS LIST",font=("Arial",12,"bold"),fg="black",bg="gray90")
+        self.studentlist_label = tk.Label(self.studentlist_frame,text="STUDENTS LIST",font=("Arial",12,"bold"),fg="black",bg="azure2")
         self.studentlist_label.place(x=38,y=15)
     # a button to access the list of courses
-        self.courselist_btn = customtkinter.CTkButton(self.studentlist_frame,text="List of Courses",text_color=("white"),width=65,height=25,command=self.display_courselist)
+        self.courselist_btn = customtkinter.CTkButton(self.studentlist_frame,text="List of Courses",fg_color="LightSkyBlue3",hover_color="LightSkyBlue4",text_color="black",corner_radius=10,width=65,height=25,command=self.display_courselist)
         self.courselist_btn.place(x=25,y=350)
     # student list table
         self.table_style()
@@ -186,7 +189,7 @@ class App(customtkinter.CTk):
         self.table_frame.place(x=30,y=50,width=795,height=370)
         self.y_scroll = customtkinter.CTkScrollbar(self.table_frame,orientation=VERTICAL)
         self.x_scroll = customtkinter.CTkScrollbar(self.table_frame,orientation=HORIZONTAL)
-        self.student_table = ttk.Treeview(self.table_frame,columns=("Student ID","Name","Gender","Year Level","Course","Contact No.","Registration Date"),yscrollcommand=self.y_scroll.set,xscrollcommand=self.x_scroll.set)
+        self.student_table = ttk.Treeview(self.table_frame,columns=("Student ID","Name","Gender","Year Level","Course","Contact No.","Registration Date"),xscrollcommand=self.x_scroll.set,yscrollcommand=self.y_scroll.set)
         self.y_scroll.configure(command=self.student_table.yview)
         self.x_scroll.configure(command=self.student_table.xview)
         self.y_scroll.pack(side=RIGHT,fill=Y)
@@ -196,9 +199,9 @@ class App(customtkinter.CTk):
         self.student_table['columns'] = ("Student ID","Last Name","First Name","Middle Name","Gender","Year Level","Course","Contact No.","Registration Date")
         self.student_table.column("#0",width=0,stretch=NO)
         self.student_table.column("Student ID",anchor=CENTER,width=100)
-        self.student_table.column("Last Name",anchor=CENTER,width=150)
-        self.student_table.column("First Name",anchor=CENTER,width=150)
-        self.student_table.column("Middle Name",anchor=CENTER,width=150)
+        self.student_table.column("Last Name",anchor=CENTER,width=200)
+        self.student_table.column("First Name",anchor=CENTER,width=200)
+        self.student_table.column("Middle Name",anchor=CENTER,width=200)
         self.student_table.column("Gender",anchor=CENTER,width=70)
         self.student_table.column("Year Level",anchor=CENTER,width=100)
         self.student_table.column("Course",anchor=CENTER,width=200)
@@ -236,14 +239,14 @@ class App(customtkinter.CTk):
         self.search_entry1.place(x=510,y=5)
         self.search_entry1.bind("<Key>",self.display_searchstudent)
     # delete student
-        self.deletestudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Delete Student",text_color=("red","white"),fg_color="transparent",border_width=1,width=70,command=self.delete_student_data)
-        self.deletestudent_btn.place(x=560,y=350)
+        self.deletestudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Delete Student",text_color=("black","white"),fg_color="red2",border_width=2,hover= True,hover_color= "red",corner_radius=20,border_color= "red2",width=5,height=30,command=self.delete_student_data)
+        self.deletestudent_btn.place(x=545,y=350)
     # edit student 
-        self.editstudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Edit Student",text_color=("white","white"),border_width=1,width=70,command=self.edit_student_data)
-        self.editstudent_btn.place(x=465,y=350)
+        self.editstudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Edit Student",text_color=("black","white"),fg_color="yellow2",border_width=2,hover= True,hover_color= "yellow",corner_radius=20,border_color= "yellow2",width=5,height=30,command=self.edit_student_data)
+        self.editstudent_btn.place(x=435,y=350)
     # update student list
-        self.updatestudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Update List",text_color=("white","white"),border_width=1,width=70,command=self.update_student_table)
-        self.updatestudent_btn.place(x=375,y=350)
+        self.updatestudent_btn = customtkinter.CTkButton(self.studentlist_frame,text="Update List",text_color=("black","white"),fg_color="cadetblue2",border_width=2,hover= True,hover_color= "cadetblue1",corner_radius=20,border_color= "cadetblue2",width=5,height=30,command=self.update_student_table)
+        self.updatestudent_btn.place(x=330,y=350)
 
 #======================================== UPDATE STUDENT LIST ON THE TABLE ========================================#
     def update_student_table(self):
@@ -312,7 +315,7 @@ class App(customtkinter.CTk):
     def edit_student_data(self):
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Student Information")
-        self.edit_window.geometry("870x470")
+        self.edit_window.geometry("870x470+0+0")
     # connecting to the database
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
@@ -365,7 +368,7 @@ class App(customtkinter.CTk):
         self.contactnum_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 09351454490",width=160,height=30)
         self.contactnum_entry.place(x=480,y=230)
     # a button to save student information
-        self.savebtn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("white","white"),border_width=1,width=80,command=self.update_student_data)
+        self.savebtn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.update_student_data)
         self.savebtn.place(x=545,y=290) 
 
     # loop through results 
@@ -384,10 +387,10 @@ class App(customtkinter.CTk):
     # list of courses frame
         self.courselist_frame = customtkinter.CTkFrame(self.tabview.tab("List"),width=680,height=390,fg_color="transparent")
         self.courselist_frame.grid(row=1,column=0)
-        self.courselist_label = tk.Label(self.courselist_frame,text="COURSES LIST",font=("Arial",12,"bold"),fg="black",bg="gray90")
+        self.courselist_label = tk.Label(self.courselist_frame,text="COURSES LIST",font=("Arial",12,"bold"),fg="black",bg="azure2")
         self.courselist_label.place(x=38,y=15)
     # a button to access the list of students
-        self.studentlist_btn = customtkinter.CTkButton(self.courselist_frame,text="List of Students",text_color=("white"),width=65,height=25,command=self.display_studentlist)
+        self.studentlist_btn = customtkinter.CTkButton(self.courselist_frame,text="List of Students",fg_color="LightSkyBlue3",hover_color="LightSkyBlue4",text_color="black",corner_radius=10,width=65,height=25,command=self.display_studentlist)
         self.studentlist_btn.place(x=25,y=350)
     # course list table
         self.table_style()
@@ -428,14 +431,14 @@ class App(customtkinter.CTk):
         self.search_entry2.place(x=510,y=5)
         self.search_entry2.bind("<Key>",self.display_searchcourse)
     # edit course
-        self.editcourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Edit Course",text_color=("white","white"),border_width=1,width=70,command=self.edit_course_data)
-        self.editcourse_btn.place(x=475,y=350)
+        self.editcourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Edit Course",text_color=("black","white"),fg_color="yellow2",border_width=2,hover= True,hover_color= "yellow",corner_radius=20,border_color= "yellow2",width=5,height=30,command=self.edit_course_data)
+        self.editcourse_btn.place(x=435,y=350)
     # delete course
-        self.deletecourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Delete Course",text_color=("red","white"),fg_color="transparent",border_width=1,width=70,command=self.delete_course)
-        self.deletecourse_btn.place(x=565,y=350)
+        self.deletecourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Delete Course",text_color=("black","white"),fg_color="red2",border_width=2,hover= True,hover_color= "red",corner_radius=20,border_color= "red2",width=5,height=30,command=self.delete_course)
+        self.deletecourse_btn.place(x=545,y=350)
     # update course list
-        self.updatecourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Update List",text_color=("white","white"),border_width=1,width=70,command=self.update_course_table)
-        self.updatecourse_btn.place(x=385,y=350)
+        self.updatecourse_btn = customtkinter.CTkButton(self.courselist_frame,text="Update List",text_color=("black","white"),fg_color="cadetblue2",border_width=2,hover= True,hover_color= "cadetblue1",corner_radius=20,border_color= "cadetblue2",width=5,height=30,command=self.update_course_table)
+        self.updatecourse_btn.place(x=330,y=350)
 
 #======================================== ADD COURSE ========================================#
     def clear_course_inputs(self):
@@ -524,7 +527,7 @@ class App(customtkinter.CTk):
     def edit_course_data(self):
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Course Information")
-        self.edit_window.geometry("700x240")
+        self.edit_window.geometry("700x240+0+0")
 
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
@@ -546,7 +549,7 @@ class App(customtkinter.CTk):
         self.course_entry.place(x=80,y=50)
 
     # save added course
-        self.savecourse_btn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("white"),border_width=1,width=80,command=self.update_course_data)
+        self.savecourse_btn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.update_course_data)
         self.savecourse_btn.place(x=435,y=100)    
     # loop through results 
         for selected_data in data:

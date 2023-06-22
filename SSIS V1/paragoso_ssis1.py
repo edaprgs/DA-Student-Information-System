@@ -68,11 +68,11 @@ class App(customtkinter.CTk):
         with open("courses.txt", "r") as f:
             course_list = f.read().splitlines()
         self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=FALSE,width=360,values=course_list,fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=FALSE,width=360,values=course_list,fg_color="palegreen4",dropdown_fg_color="palegreen4",dropdown_hover_color="palegreen3",button_color="palegreen3",button_hover_color="palegreen3",text_color="white",dropdown_text_color="white",variable=self.course_var)
         self.course_option.place(x=160,y=290)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
-        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),width=170,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.ylevel_var)
+        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),width=170,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],fg_color="palegreen4",dropdown_fg_color="palegreen4",dropdown_hover_color="palegreen3",button_color="palegreen3",button_hover_color="palegreen3",text_color="white",dropdown_text_color="white",variable=self.ylevel_var)
         self.ylevel_option.place(x=460,y=110)
     # student gender
         self.gender_var = tkinter.StringVar(value="Select")
@@ -267,6 +267,10 @@ class App(customtkinter.CTk):
 
 #======================================== DELETE STUDENT ========================================#
     def delete_student_data(self):
+        if not self.student_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
         decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the selected student?")
         if decision != 'yes':
             return
@@ -295,6 +299,10 @@ class App(customtkinter.CTk):
 
 # ======================================== UPDATE STUDENT RECORD ========================================
     def update_student_data(self):
+        decision = tkMessageBox.askquestion("Warning!", "Are you sure you want to make changes in the student information?")
+        if decision != 'yes':
+            tkMessageBox.showinfo("Message", "The changes have not been saved")
+            return
         selected_id = self.student_table.focus()
         id_details = str(self.student_table.item(selected_id)['values'][0])
         student_id = str(id_details).strip()
@@ -325,6 +333,10 @@ class App(customtkinter.CTk):
 
 #======================================== EDIT STUDENT RECORD ========================================#
     def edit_student_data(self):
+        if not self.student_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Student Information")
         self.edit_window.geometry("870x470+0+0")
@@ -368,7 +380,7 @@ class App(customtkinter.CTk):
             courses = f.readlines()
             course_list = [course.strip() for course in courses]
     # Combine student course and additional courses on the course option
-        self.course_option = customtkinter.CTkOptionMenu(self.edit_window, width=370,dynamic_resizing=False,values=course_list,fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.edit_window, width=370,dynamic_resizing=False,values=course_list,fg_color="palegreen4",dropdown_fg_color="palegreen4",dropdown_hover_color="palegreen3",button_color="palegreen3",button_hover_color="palegreen3",text_color="white",dropdown_text_color="white",variable=self.course_var)
         self.course_option.place(x=160, y=290)
     # student gender
         self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="palegreen4",border_color="palegreen4",width=160,height=30)
@@ -504,6 +516,9 @@ class App(customtkinter.CTk):
         return False
     
     def delete_course(self):
+        if not self.course_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
         selected_item = self.course_table.selection()[0]
         delete_data = str(self.course_table.item(selected_item)['values'][0])
     # Check if there are students enrolled in the course
@@ -532,6 +547,10 @@ class App(customtkinter.CTk):
 
 # ======================================== UPDATE COURSE RECORD ========================================
     def update_course_data(self):
+        decision = tkMessageBox.askquestion("Warning!", "Are you sure you want to make changes in the course information?")
+        if decision != 'yes':
+            tkMessageBox.showinfo("Message", "The changes have not been saved")
+            return
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])
 
@@ -553,7 +572,7 @@ class App(customtkinter.CTk):
             student_data = f.readlines()
     # Update the course name in the student records
         updated_student_data = []
-        course_name = self.course_entry.get().upper()  # Move the declaration outside the loop
+        course_name = self.course_entry.get().upper()  
         for line in student_data:
             line = line.strip()
             student_info = line.split("|")
@@ -562,12 +581,16 @@ class App(customtkinter.CTk):
             updated_student_data.append("|".join(student_info) + "\n") 
     # Save the updated data back to the students file
         with open("students.txt", "w") as f:
-            f.writelines(updated_student_data)  # Write the updated_student_data, not student_data
+            f.writelines(updated_student_data) 
         tkMessageBox.showinfo("Message", "The edited information has been updated successfully!")
         self.edit_window.destroy()
 
 #======================================== EDIT COURSE RECORD ========================================#
     def edit_course_data(self):
+        if not self.course_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Course Information")
         self.edit_window.geometry("700x240+0+0")

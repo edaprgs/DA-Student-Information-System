@@ -160,13 +160,24 @@ class App(customtkinter.CTk):
     # input in database
         if student_id=='' or last_name=='' or first_name=='' or middle_name=='' or selected_gender=='' or selected_ylevel=='' or selected_course=='' or contactnum=='': tkMessageBox.showinfo("Warning","Fill the empty field!")
         else:
-            data_insert_query = '''INSERT INTO student_data (student_id,last_name,first_name,middle_name,gender,year_level,course,contact_number) VALUES (?,?,?,?,?,?,?,?)'''
-            data_insert_tuple = (student_id,last_name,first_name,middle_name,selected_gender,selected_ylevel,selected_course,contactnum)
-            tkMessageBox.showinfo("Message","Student information added successfully")
-            cursor.execute(data_insert_query,data_insert_tuple)
-            conn.commit()
-            conn.close()
+            if self.student_exists(cursor, student_id):
+                tkMessageBox.showinfo("Error", "A student with the same ID already exists!")
+            else:
+                data_insert_query = '''INSERT INTO student_data (student_id,last_name,first_name,middle_name,gender,year_level,course,contact_number) VALUES (?,?,?,?,?,?,?,?)'''
+                data_insert_tuple = (student_id,last_name,first_name,middle_name,selected_gender,selected_ylevel,selected_course,contactnum)
+                cursor.execute(data_insert_query,data_insert_tuple)
+                conn.commit()
+                tkMessageBox.showinfo("Message","Student information added successfully")
+        conn.close()
         self.clear_student_inputs()
+
+    # Check if a student with the same ID already exists in the database
+    def student_exists(self, cursor, student_id):
+        query = '''SELECT * FROM student_data WHERE student_id = ?'''
+        cursor.execute(query, (student_id,))
+        if cursor.fetchone():
+            return True
+        return False
         
 #======================================== DISPLAY LIST OF STUDENTS ========================================#
     def display_studentlist(self):
@@ -265,7 +276,7 @@ class App(customtkinter.CTk):
     # loop for displaying all records 
             for data in fetch:
                 self.student_table.insert('', 'end', values=(data))
-            conn.commit()
+                conn.commit()
             conn.close()
 
 #======================================== DELETE STUDENT ========================================#
@@ -297,9 +308,10 @@ class App(customtkinter.CTk):
         cursor.execute('''UPDATE student_data SET student_id = :student,last_name = :last_name,first_name = :first_name,middle_name = :middle,
             gender = :gender,year_level = :year_level,course = :course,contact_number = :contact WHERE student_id = :student_id''',
                 {'student': self.studentID_entry.get(),'last_name': self.lName_entry.get().upper(),'first_name': self.fName_entry.get().upper(),'middle': self.mName_entry.get().upper(),
-                    'gender': self.gender_entry.get().upper(),'year_level': self.ylevel_entry.get().upper(),'course': self.course_entry.get().upper(),'contact': self.contactnum_entry.get(),'student_id': student_id})
+                    'gender': self.gender_entry.get().upper(),'year_level': self.ylevel_entry.get().upper(),'course': self.course_option.get(),'contact': self.contactnum_entry.get(),'student_id': student_id})
         conn.commit()
-        conn.close()    
+        conn.close()
+        tkMessageBox.showinfo("Message","The edited information has been updated successfully!")
         self.edit_window.destroy()
 
 #======================================== EDIT STUDENT RECORD ========================================#
@@ -345,8 +357,11 @@ class App(customtkinter.CTk):
         self.lName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. PARAGOSO",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.lName_entry.place(x=160,y=230)
     # student course
-        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=390,height=30)
-        self.course_entry.place(x=120,y=290)
+        cursor.execute("SELECT DISTINCT course_code FROM courses")
+        course_list = [r[0] for r in cursor.fetchall()]
+        conn.close()
+        self.course_option = customtkinter.CTkComboBox(self.edit_window, fg_color="LightSkyBlue4", button_color="LightSkyBlue3", button_hover_color="LightSkyBlue3", text_color="white", dropdown_fg_color="azure2", dropdown_hover_color="LightSkyBlue3", width=350, values=course_list, variable=self.course_var)
+        self.course_option.place(x=120, y=290)
     # student gender
         self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.gender_entry.place(x=480,y=110)
@@ -367,7 +382,7 @@ class App(customtkinter.CTk):
             self.mName_entry.insert(0,selected_data[3])
             self.gender_entry.insert(0,selected_data[4])
             self.ylevel_entry.insert(0,selected_data[5])
-            self.course_entry.insert(0,selected_data[6])
+            self.course_var.set(selected_data[6])
             self.contactnum_entry.insert(0,selected_data[7])
 
 #======================================== LIST OF COURSES ========================================#
@@ -443,7 +458,7 @@ class App(customtkinter.CTk):
             tkMessageBox.showinfo("Message","Course added successfully")
             cursor.execute(data_insert_query,data_insert_tuple)
             conn.commit()
-            conn.close()
+        conn.close()
         self.clear_course_inputs()
 
 #======================================== UPDATE COURSE LIST ON THE TABLE ========================================#
@@ -456,7 +471,7 @@ class App(customtkinter.CTk):
         fetch = display_data_query.fetchall()
         for data in fetch:
             self.course_table.insert('', 'end', values=(data[0],data[1]))
-        conn.commit()
+            conn.commit()
         conn.close()
     
 #======================================== SEARCH COURSE ========================================#
@@ -472,7 +487,7 @@ class App(customtkinter.CTk):
     # loop for displaying all records 
             for data in fetch:
                 self.course_table.insert('', 'end', values=(data))
-            conn.commit()
+                conn.commit()
             conn.close()
 
 #======================================== DELETE COURSE ========================================#
@@ -504,10 +519,10 @@ class App(customtkinter.CTk):
     def update_course_data(self):
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
+
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])
         course_data = str(code_details)
-
         new_course_code = self.coursecode_entry.get().upper()
         new_course = self.course_entry.get().upper()
     # Update course in the courses table
@@ -529,6 +544,7 @@ class App(customtkinter.CTk):
 
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
+
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])
         cursor.execute("SELECT * FROM courses WHERE course_code = '" + str(code_details)+"'")

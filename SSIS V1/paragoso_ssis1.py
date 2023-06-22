@@ -159,7 +159,7 @@ class App(customtkinter.CTk):
         self.studentlist_label = tk.Label(self.studentlist_frame,text="STUDENTS LIST",font=("Arial",12,"bold"),bg="grey85")
         self.studentlist_label.place(x=38,y=15)
     # a button to access the list of courses
-        self.courselist_btn = customtkinter.CTkButton(self.studentlist_frame,text="List of Courses",text_color=("black"),fg_color="palegreen2",hover_color="palegreen1",border_width=1,border_color="palegreen3",width=65,height=25,command=self.display_courselist)
+        self.courselist_btn = customtkinter.CTkButton(self.studentlist_frame,text="List of Courses",text_color=("black"),fg_color="palegreen2",hover_color="palegreen1",border_width=1,border_color="palegreen3",width=65,height=30,command=self.display_courselist)
         self.courselist_btn.place(x=25,y=350)
     # student list table
         self.table_style()
@@ -427,7 +427,7 @@ class App(customtkinter.CTk):
         self.courselist_label = tk.Label(self.courselist_frame,text="COURSES LIST",font=("Arial",12,"bold"),fg="black",bg="grey85")
         self.courselist_label.place(x=38,y=15)
     # a button to access the list of students
-        self.studentlist_btn = customtkinter.CTkButton(self.courselist_frame,text="List of Students",fg_color="palegreen2",hover_color="palegreen1",text_color=("black"),border_width=1,border_color="palegreen3",width=65,height=25,command=self.display_studentlist)
+        self.studentlist_btn = customtkinter.CTkButton(self.courselist_frame,text="List of Students",fg_color="palegreen2",hover_color="palegreen1",text_color=("black"),border_width=1,border_color="palegreen3",width=65,height=30,command=self.display_studentlist)
         self.studentlist_btn.place(x=25,y=350)
     # course list table
         self.table_style()

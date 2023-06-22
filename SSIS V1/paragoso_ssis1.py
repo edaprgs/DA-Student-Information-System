@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("SSIS version 1.0")
-        self.geometry("800x600")
+        self.geometry("800x600+0+0")
 
     # configure grid layout
         self.grid_columnconfigure(0,weight=1)
@@ -347,21 +347,14 @@ class App(customtkinter.CTk):
     def edit_student_data(self):
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Student Information")
-        self.edit_window.geometry("870x470")
+        self.edit_window.geometry("870x470+0+0")
 
         selected_id = self.student_table.focus()
         id_details = str(self.student_table.item(selected_id)['values'][0])
         with open("students.txt", "r") as f:
             data = f.readlines()
     # global variables for the entries
-        global studentID_entry
-        global fName_entry
-        global mName_entry
-        global lName_entry
-        global gender_entry
-        global ylevel_entry
-        global course_entry
-        global contactnum_entry
+        global studentID_entry; global fName_entry; global mName_entry; global lName_entry; global gender_entry; global ylevel_entry; global course_entry; global contactnum_entry
     # edit student form
         self.studentID_label = customtkinter.CTkLabel(self.edit_window,text="Student ID:",font=("Arial",14))
         self.studentID_label.place(x=50,y=50)
@@ -515,13 +508,28 @@ class App(customtkinter.CTk):
             self.course_table.insert(parent='', index='end', text='', values=(course,))
 
 #======================================== DELETE COURSE ========================================#
+    def check_students_enrolled(self,course):
+        with open('students.txt', 'r') as f:
+            lines = f.readlines()
+        for line in lines:
+            data = line.split('|')
+            if data[6].strip() == course:
+                return True
+        return False
+    
     def delete_course(self):
+        selected_item = self.course_table.selection()[0]
+        delete_data = str(self.course_table.item(selected_item)['values'][0])
+        
+        # Check if there are students enrolled in the course
+        if self.check_students_enrolled(delete_data):
+            tkMessageBox.showinfo("Warning", "There are students enrolled in this course. Cannot delete.")
+            return
+        
         decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the selected data?")
         if decision != 'yes':
             return
         else:
-            selected_item = self.course_table.selection()[0]
-            delete_data = str(self.course_table.item(selected_item)['values'][0])
             try:
                 with open('courses.txt', 'r') as f:
                     lines = f.readlines()
@@ -562,7 +570,7 @@ class App(customtkinter.CTk):
     def edit_course_data(self):
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Course Information")
-        self.edit_window.geometry("700x240")
+        self.edit_window.geometry("700x240+0+0")
 
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])

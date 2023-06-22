@@ -110,8 +110,8 @@ class App(customtkinter.CTk):
         style=ttk.Style()
         style.theme_use("vista")
         style.configure("Treeview",bg="white",fg="black",rowheight=35,fieldbackground="white")
-        style.configure("Treeview.Heading", font=('Calibri', 12,'bold')) # Modify the font of the headings
-        style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 11)) # Modify the font of the body
+        style.configure("Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 12)) # Modify the font of the body
         style.layout("Treeview", [('Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
         style.map("Treeview",background=[("selected","palegreen4")])
 
@@ -143,7 +143,7 @@ class App(customtkinter.CTk):
             student_record = f"\n{student_id}|{last_name}|{first_name}|{middle_name}|{selected_gender}|{selected_ylevel}|{selected_course}|{contactnum}"
             with open("students.txt", "a") as f:
                 f.write(student_record)
-            tkMessageBox.showinfo("Message","Student information added successfully")
+            tkMessageBox.showinfo("Message","Student information added successfully!")
         self.clear_student_inputs()
         
 #======================================== DISPLAY LIST OF STUDENTS ========================================#
@@ -174,9 +174,9 @@ class App(customtkinter.CTk):
         self.student_table['columns'] = ("Student ID","Last Name","First Name","Middle Name","Gender","Year Level","Course","Contact No.")
         self.student_table.column("#0",width=0,stretch=NO)
         self.student_table.column("Student ID",anchor=CENTER,width=100)
-        self.student_table.column("Last Name",anchor=CENTER,width=130)
-        self.student_table.column("First Name",anchor=CENTER,width=130)
-        self.student_table.column("Middle Name",anchor=CENTER,width=130)
+        self.student_table.column("Last Name",anchor=CENTER,width=200)
+        self.student_table.column("First Name",anchor=CENTER,width=200)
+        self.student_table.column("Middle Name",anchor=CENTER,width=200)
         self.student_table.column("Gender",anchor=CENTER,width=75)
         self.student_table.column("Year Level",anchor=CENTER,width=100)
         self.student_table.column("Course",anchor=CENTER,width=500)
@@ -307,7 +307,7 @@ class App(customtkinter.CTk):
                 with open('students.txt', 'w') as f:
                     f.writelines(new_lines)
             except:
-                tkMessageBox.showinfo("Error","An error has occured")
+                tkMessageBox.showinfo("Error","An error has occured!")
                 return
         self.update_student_table()
 
@@ -478,12 +478,12 @@ class App(customtkinter.CTk):
     # get the course from the input field
         course = self.course_entry.get().upper()
     # input in the file
-        if course=='': tkMessageBox.showinfo("Warning","Fill the empty field!")
+        if course=='': tkMessageBox.showinfo("Warning","Please fill the empty field!")
         else:
             course_record = f"\n{course}"
             with open("courses.txt", "a") as f:
                 f.write(course_record)
-            tkMessageBox.showinfo("Message","Course added successfully")
+            tkMessageBox.showinfo("Message","Course added successfully!")
         self.clear_course_inputs()
 
 #======================================== UPDATE COURSE LIST ON THE TABLE ========================================#
@@ -523,10 +523,10 @@ class App(customtkinter.CTk):
         
         # Check if there are students enrolled in the course
         if self.check_students_enrolled(delete_data):
-            tkMessageBox.showinfo("Warning", "There are students enrolled in this course. Cannot delete.")
+            tkMessageBox.showinfo("Warning!", "There are students enrolled in this course. Course cannot be deleted.")
             return
         
-        decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the selected data?")
+        decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the course selected?")
         if decision != 'yes':
             return
         else:
@@ -542,7 +542,7 @@ class App(customtkinter.CTk):
                 with open('courses.txt', 'w') as f:
                     f.writelines(new_lines)
             except:
-                tkMessageBox.showinfo("Error","An error has occured")
+                tkMessageBox.showinfo("Error","An error has occured!")
                 return
         self.update_course_table()
 

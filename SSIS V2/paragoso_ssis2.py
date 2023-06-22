@@ -7,7 +7,6 @@ from tkinter import ttk
 import tkinter.messagebox as tkMessageBox
 import customtkinter
 import sqlite3
-from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("light") 
 customtkinter.set_default_color_theme("dark-blue") 

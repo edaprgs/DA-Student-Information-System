@@ -29,7 +29,7 @@ class App(customtkinter.CTk):
         self.header_label.grid(row=0,column=0)
     # tabview
         self.tabview = customtkinter.CTkTabview(self,width=700,height=450)
-        self.tabview.configure(segmented_button_fg_color="palegreen3",segmented_button_selected_color="palegreen4",segmented_button_unselected_color="palegreen3",segmented_button_unselected_hover_color="palegreen4",text_color="white")
+        self.tabview.configure(segmented_button_fg_color="palegreen3",segmented_button_selected_color="palegreen2",segmented_button_unselected_color="palegreen3",segmented_button_unselected_hover_color="palegreen2",text_color="black")
         self.tabview.grid(row=1,column=0)
         self.tabview.add("Add Student")
         self.tabview.add("Add Course")
@@ -68,11 +68,11 @@ class App(customtkinter.CTk):
         with open("courses.txt", "r") as f:
             course_list = f.read().splitlines()
         self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=FALSE,width=360,values=course_list,variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=FALSE,width=360,values=course_list,fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.course_var)
         self.course_option.place(x=160,y=290)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
-        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),width=170,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],variable=self.ylevel_var)
+        self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),width=170,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.ylevel_var)
         self.ylevel_option.place(x=460,y=110)
     # student gender
         self.gender_var = tkinter.StringVar(value="Select")
@@ -364,17 +364,11 @@ class App(customtkinter.CTk):
         self.mName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. JUTBA",placeholder_text_color="palegreen4",border_color="palegreen4",width=160,height=30)
         self.mName_entry.place(x=160,y=230)
     # student course
-        with open("students.txt", "r") as f:
-            students = f.readlines()
-            student_data = [s.strip().split("|") for s in students]
-            student_courses = [data[6] for data in student_data]
         with open("courses.txt", "r") as f:
             courses = f.readlines()
             course_list = [course.strip() for course in courses]
     # Combine student course and additional courses on the course option
-        course_list += student_courses
-        self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.edit_window, width=370, values=course_list, variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.edit_window, width=370,dynamic_resizing=False,values=course_list,fg_color="palegreen2",dropdown_fg_color="palegreen2",dropdown_hover_color="palegreen3",button_color="palegreen4",button_hover_color="palegreen4",text_color="black",variable=self.course_var)
         self.course_option.place(x=160, y=290)
     # student gender
         self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="palegreen4",border_color="palegreen4",width=160,height=30)

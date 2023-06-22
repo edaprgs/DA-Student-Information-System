@@ -113,7 +113,7 @@ class App(customtkinter.CTk):
         style.configure("Treeview.Heading", font=('Calibri', 12,'bold')) # Modify the font of the headings
         style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 11)) # Modify the font of the body
         style.layout("Treeview", [('Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
-        style.map("Treeview",background=[("selected","DodgerBlue3")])
+        style.map("Treeview",background=[("selected","palegreen4")])
 
 #======================================== ADD STUDENT ========================================#
     # clear input-fields

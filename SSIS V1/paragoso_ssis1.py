@@ -68,9 +68,9 @@ class App(customtkinter.CTk):
         self.lName_entry.place(x=160,y=230)
     # student gender
         self.gender_var = tkinter.StringVar(value="Select")
-        self.female_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="FEMALE",variable=self.gender_var,value="FEMALE")
+        self.female_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="FEMALE",border_color="palegreen4",variable=self.gender_var,value="FEMALE")
         self.female_rbtn.place(x=160,y=295)
-        self.male_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="MALE",variable=self.gender_var,value="MALE")
+        self.male_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="MALE",border_color="palegreen4",variable=self.gender_var,value="MALE")
         self.male_rbtn.place(x=250,y=295)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
@@ -333,7 +333,7 @@ class App(customtkinter.CTk):
                 student_info[3] = self.mName_entry.get().upper()
                 student_info[4] = self.gender_entry.get().upper()
                 student_info[5] = self.ylevel_entry.get().upper()
-                student_info[6] = self.course_entry.get().upper()
+                student_info[6] = self.course_var.get()
                 student_info[7] = self.contactnum_entry.get()
                 data[i] = "|".join(student_info) + "\n"
                 break
@@ -385,8 +385,18 @@ class App(customtkinter.CTk):
         self.mName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. JUTBA",placeholder_text_color="palegreen4",border_color="palegreen4",width=160,height=30)
         self.mName_entry.place(x=160,y=230)
     # student course
-        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="palegreen4",border_color="palegreen4",width=400,height=30)
-        self.course_entry.place(x=120,y=290)
+        with open("students.txt", "r") as f:
+            students = f.readlines()
+            student_data = [s.strip().split("|") for s in students]
+            student_courses = [data[6] for data in student_data]
+        with open("courses.txt", "r") as f:
+            courses = f.readlines()
+            course_list = [course.strip() for course in courses]
+    # Combine student course and additional courses on the course option
+        course_list += student_courses
+        self.course_var = tkinter.StringVar(value="Select")
+        self.course_option = customtkinter.CTkOptionMenu(self.edit_window, width=370, values=course_list, variable=self.course_var)
+        self.course_option.place(x=160, y=290)
     # student gender
         self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="palegreen4",border_color="palegreen4",width=160,height=30)
         self.gender_entry.place(x=480,y=110)
@@ -406,6 +416,14 @@ class App(customtkinter.CTk):
             if line.startswith(id_details):
     # Split the line into student info
                 student_id, last_name, first_name, middle_name, selected_gender, selected_ylevel, selected_course, contactnum = line.split("|")
+    # Clear the existing content of the entry fields before inserting new values
+                self.studentID_entry.delete(0, tkinter.END)
+                self.lName_entry.delete(0, tkinter.END)
+                self.fName_entry.delete(0, tkinter.END)
+                self.mName_entry.delete(0, tkinter.END)
+                self.gender_entry.delete(0, tkinter.END)
+                self.ylevel_entry.delete(0, tkinter.END)
+                self.contactnum_entry.delete(0, tkinter.END)
     # Insert the student info into the entry fields
                 self.studentID_entry.insert(0, student_id)
                 self.lName_entry.insert(0, last_name)
@@ -413,8 +431,8 @@ class App(customtkinter.CTk):
                 self.mName_entry.insert(0, middle_name)
                 self.gender_entry.insert(0, selected_gender)
                 self.ylevel_entry.insert(0, selected_ylevel)
-                self.course_entry.insert(0, selected_course)
                 self.contactnum_entry.insert(0, contactnum)
+                self.course_var.set(selected_course)
                 break
 
 #======================================== LIST OF COURSES ========================================#

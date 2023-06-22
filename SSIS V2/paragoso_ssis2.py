@@ -72,20 +72,20 @@ class App(customtkinter.CTk):
 
     # add student user-inputs
     # student ID
-        self.studentID_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 2021-1574",width=130,height=30)
+        self.studentID_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 2021-1574",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=130,height=30)
         self.studentID_entry.place(x=160,y=50)
     # student name
-        self.fName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. EDA GRACE",width=160,height=30)
+        self.fName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. EDA GRACE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.fName_entry.place(x=160,y=110)
-        self.mName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. JUTBA",width=160,height=30)
+        self.mName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. JUTBA",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.mName_entry.place(x=160,y=170)
-        self.lName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. PARAGOSO",width=160,height=30)
+        self.lName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. PARAGOSO",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.lName_entry.place(x=160,y=230)
     # student gender
         self.gender_var = tkinter.StringVar(value="Select")
-        self.female_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="FEMALE",variable=self.gender_var,value="FEMALE")
+        self.female_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="FEMALE",border_color="LightSkyBlue4",variable=self.gender_var,value="FEMALE")
         self.female_rbtn.place(x=160,y=295)
-        self.male_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="MALE",variable=self.gender_var,value="MALE")
+        self.male_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="MALE",border_color="LightSkyBlue4",variable=self.gender_var,value="MALE")
         self.male_rbtn.place(x=250,y=295)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
@@ -103,7 +103,7 @@ class App(customtkinter.CTk):
         self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",dynamic_resizing=False,values=course_list,variable=self.course_var)
         self.course_option.place(x=490,y=170)
     # student contact number
-        self.contactnum_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 09351454490",width=140,height=30)
+        self.contactnum_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 09351454490",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=140,height=30)
         self.contactnum_entry.place(x=490,y=230)
     # add student information
         self.savebtn = customtkinter.CTkButton(self.tabview.tab("Add Student"),text="Add Student",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_student)
@@ -112,11 +112,11 @@ class App(customtkinter.CTk):
     # add course form
         self.coursecode_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course Code:",font=("Arial",14))
         self.coursecode_label.place(x=50,y=50)
-        self.coursecode_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BSCS",width=150,height=30)
+        self.coursecode_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=150,height=30)
         self.coursecode_entry.place(x=160,y=50)
         self.course_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course:",font=("Arial",14))
         self.course_label.place(x=50,y=110)
-        self.course_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",width=470,height=30)
+        self.course_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=470,height=30)
         self.course_entry.place(x=160,y=110)
     # add course information
         self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_course)
@@ -234,7 +234,7 @@ class App(customtkinter.CTk):
         self.searchstudent_var = StringVar()
         self.search_label = customtkinter.CTkLabel(self.studentlist_frame,text="Search:")
         self.search_label.place(x=460,y=5)
-        self.search_entry1 = customtkinter.CTkEntry(self.studentlist_frame,textvariable=self.searchstudent_var,placeholder_text="e.g. 2021-1574", width=145)
+        self.search_entry1 = customtkinter.CTkEntry(self.studentlist_frame,textvariable=self.searchstudent_var,placeholder_text="e.g. 2021-1574",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4", width=145)
         self.search_entry1.place(x=510,y=5)
         self.search_entry1.bind("<Key>",self.display_searchstudent)
     # delete student
@@ -345,26 +345,26 @@ class App(customtkinter.CTk):
 
     # edit student user-inputs
     # student ID
-        self.studentID_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2021-1574",width=160,height=30)
+        self.studentID_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2021-1574",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.studentID_entry.place(x=160,y=50)
     # student name
-        self.fName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. EDA GRACE",width=160,height=30)
+        self.fName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. EDA GRACE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.fName_entry.place(x=160,y=110)
-        self.mName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. JUTBA",width=160,height=30)
+        self.mName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. JUTBA",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.mName_entry.place(x=160,y=170)
-        self.lName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. PARAGOSO",width=160,height=30)
+        self.lName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. PARAGOSO",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.lName_entry.place(x=160,y=230)
     # student course
-        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",width=400,height=30)
+        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=400,height=30)
         self.course_entry.place(x=120,y=290)
     # student gender
-        self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",width=160,height=30)
+        self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.gender_entry.place(x=480,y=110)
     # student year level
-        self.ylevel_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2ND YEAR",width=160,height=30)
+        self.ylevel_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2ND YEAR",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.ylevel_entry.place(x=480,y=170)
     # student contact number
-        self.contactnum_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 09351454490",width=160,height=30)
+        self.contactnum_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 09351454490",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.contactnum_entry.place(x=480,y=230)
     # a button to save student information
         self.savebtn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=20,border_color= "LightSkyBlue3",width=100,height=30,command=self.update_student_data)
@@ -426,7 +426,7 @@ class App(customtkinter.CTk):
         self.searchcourse_var = StringVar()
         self.search_label = customtkinter.CTkLabel(self.courselist_frame,text="Search:")
         self.search_label.place(x=460,y=5)
-        self.search_entry2 = customtkinter.CTkEntry(self.courselist_frame,textvariable=self.searchcourse_var,placeholder_text="e.g. BSCS", width=145)
+        self.search_entry2 = customtkinter.CTkEntry(self.courselist_frame,textvariable=self.searchcourse_var,placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4", width=145)
         self.search_entry2.place(x=510,y=5)
         self.search_entry2.bind("<Key>",self.display_searchcourse)
     # edit course
@@ -540,11 +540,11 @@ class App(customtkinter.CTk):
     # add course form
         self.coursecode_label = customtkinter.CTkLabel(self.edit_window,text="Course Code:",font=("Arial",12))
         self.coursecode_label.place(x=25,y=100)
-        self.coursecode_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",width=200,height=30)
+        self.coursecode_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=200,height=30)
         self.coursecode_entry.place(x=110,y=100)
         self.course_label = customtkinter.CTkLabel(self.edit_window,text="Course:",font=("Arial",12))
         self.course_label.place(x=25,y=50)
-        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",width=450,height=30)
+        self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=450,height=30)
         self.course_entry.place(x=80,y=50)
 
     # save added course

@@ -68,7 +68,7 @@ class App(customtkinter.CTk):
         with open("courses.txt", "r") as f:
             course_list = f.read().splitlines()
         self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),width=360,values=course_list,variable=self.course_var)
+        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),dynamic_resizing=FALSE,width=360,values=course_list,variable=self.course_var)
         self.course_option.place(x=160,y=290)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
@@ -135,11 +135,21 @@ class App(customtkinter.CTk):
     # input in the file
         if student_id=='' or last_name=='' or first_name=='' or middle_name=='' or selected_gender=='' or selected_ylevel=='' or selected_course=='' or contactnum=='': tkMessageBox.showinfo("Warning","Fill the empty field!")
         else:
-            student_record = f"\n{student_id}|{last_name}|{first_name}|{middle_name}|{selected_gender}|{selected_ylevel}|{selected_course}|{contactnum}"
-            with open("students.txt", "a") as f:
-                f.write(student_record)
-            tkMessageBox.showinfo("Message","Student information added successfully!")
+            if self.student_exists(student_id):
+                tkMessageBox.showinfo("Error", "A student with the same student ID already exists!")
+            else:
+                student_record = f"\n{student_id}|{last_name}|{first_name}|{middle_name}|{selected_gender}|{selected_ylevel}|{selected_course}|{contactnum}"
+                with open("students.txt", "a") as f:
+                    f.write(student_record)
+                tkMessageBox.showinfo("Message", "Student information added successfully!")
         self.clear_student_inputs()
+
+    def student_exists(self, student_id):
+        with open("students.txt", "r") as f:
+            for line in f:
+                if line.startswith(student_id + "|"):
+                    return True
+        return False
         
 #======================================== DISPLAY LIST OF STUDENTS ========================================#
     def display_studentlist(self):

@@ -271,7 +271,7 @@ class App(customtkinter.CTk):
             tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
             return
         
-        decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the selected student?")
+        decision = tkMessageBox.askquestion("Warning","Are you sure you want to delete the selected student?")
         if decision != 'yes':
             return
         else:
@@ -299,7 +299,7 @@ class App(customtkinter.CTk):
 
 # ======================================== UPDATE STUDENT RECORD ========================================
     def update_student_data(self):
-        decision = tkMessageBox.askquestion("Warning!", "Are you sure you want to make changes in the student information?")
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to make changes in the student information?")
         if decision != 'yes':
             tkMessageBox.showinfo("Message", "The changes have not been saved")
             return
@@ -523,9 +523,9 @@ class App(customtkinter.CTk):
         delete_data = str(self.course_table.item(selected_item)['values'][0])
     # Check if there are students enrolled in the course
         if self.check_students_enrolled(delete_data):
-            tkMessageBox.showinfo("Warning!", "There are students enrolled in this course. Course cannot be deleted.")
+            tkMessageBox.showinfo("Warning", "There are students enrolled in this course. Course cannot be deleted.")
             return
-        decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the course selected?")
+        decision = tkMessageBox.askquestion("Warning","Are you sure you want to delete the course selected?")
         if decision != 'yes':
             return
         else:
@@ -547,7 +547,7 @@ class App(customtkinter.CTk):
 
 # ======================================== UPDATE COURSE RECORD ========================================
     def update_course_data(self):
-        decision = tkMessageBox.askquestion("Warning!", "Are you sure you want to make changes in the course information?")
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to make changes in the course information?")
         if decision != 'yes':
             tkMessageBox.showinfo("Message", "The changes have not been saved")
             return

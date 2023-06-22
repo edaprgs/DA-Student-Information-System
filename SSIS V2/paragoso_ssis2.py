@@ -9,7 +9,7 @@ import customtkinter
 import sqlite3
 
 customtkinter.set_appearance_mode("light") 
-customtkinter.set_default_color_theme("dark-blue") 
+customtkinter.set_default_color_theme("blue") 
 
 # function for creating GUI Layout
 class App(customtkinter.CTk):
@@ -281,13 +281,17 @@ class App(customtkinter.CTk):
 
 #======================================== DELETE STUDENT ========================================#
     def delete_student_data(self):
-        decision = tkMessageBox.askquestion("Warning!","Are you sure you want to delete the selected student?")
+        if not self.student_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
+        decision = tkMessageBox.askquestion("Warning","Are you sure you want to delete the selected student?")
         if decision != 'yes':
             return
         else:
-            selected_item = self.student_table.selection()[0]
-            delete_data = str(self.student_table.item(selected_item)['values'][0])
             try:
+                selected_item = self.student_table.selection()[0]
+                delete_data = str(self.student_table.item(selected_item)['values'][0])
                 conn = sqlite3.connect('studentdata.db')
                 cursor = conn.cursor() 
                 cursor.execute("DELETE FROM student_data WHERE student_id = '" + str(delete_data)+"'")
@@ -300,6 +304,10 @@ class App(customtkinter.CTk):
 
 #======================================== UPDATE STUDENT RECORD ========================================#
     def update_student_data(self):
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to make changes in the student information?")
+        if decision != 'yes':
+            tkMessageBox.showinfo("Message", "The changes have not been saved")
+            return
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
         selected_id = self.student_table.focus()
@@ -316,10 +324,14 @@ class App(customtkinter.CTk):
 
 #======================================== EDIT STUDENT RECORD ========================================#
     def edit_student_data(self):
+        if not self.student_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Student Information")
         self.edit_window.geometry("870x470+0+0")
-    # connecting to the database
+
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
         selected_id = self.student_table.focus()
@@ -492,7 +504,11 @@ class App(customtkinter.CTk):
 
 #======================================== DELETE COURSE ========================================#
     def delete_course(self):
-        decision = tkMessageBox.askquestion("Warning!", "Are you sure you want to delete the selected data?")
+        if not self.course_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected data?")
         if decision != 'yes':
             return
         else:
@@ -517,6 +533,10 @@ class App(customtkinter.CTk):
 
 #======================================== UPDATE COURSE RECORD ========================================#
     def update_course_data(self):
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to make changes in the course information?")
+        if decision != 'yes':
+            tkMessageBox.showinfo("Message", "The changes have not been saved")
+            return
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
 
@@ -538,6 +558,10 @@ class App(customtkinter.CTk):
 
 #======================================== EDIT COURSE RECORD ========================================#
     def edit_course_data(self):
+        if not self.course_table.selection():
+            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            return
+        
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Course Information")
         self.edit_window.geometry("700x240+0+0")

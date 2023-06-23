@@ -17,6 +17,7 @@ class App(customtkinter.CTk):
 
         self.title("SSIS version 1.0")
         self.geometry("800x600+0+0")
+        self.resizable(False, False)
 
     # configure grid layout
         self.grid_columnconfigure(0,weight=1)

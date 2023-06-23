@@ -18,6 +18,7 @@ class App(customtkinter.CTk):
 
         self.title("SSIS version 2.0")
         self.geometry("800x600+0+0")
+        self.resizable(False, False)
         
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()

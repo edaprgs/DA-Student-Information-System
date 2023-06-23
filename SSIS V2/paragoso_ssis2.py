@@ -11,7 +11,6 @@ import sqlite3
 customtkinter.set_appearance_mode("light") 
 customtkinter.set_default_color_theme("blue") 
 
-# function for creating GUI Layout
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()

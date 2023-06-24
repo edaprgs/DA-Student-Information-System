@@ -17,7 +17,7 @@ class App(customtkinter.CTk):
 
         self.title("SSIS version 2.0")
         self.geometry("800x600+0+0")
-        self.resizable(False, False)
+        self.resizable(False, False)    
         
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
@@ -230,7 +230,7 @@ class App(customtkinter.CTk):
     # to fetch data from database and display in the table
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
-        display_data_query = cursor.execute("SELECT * FROM student_data ORDER BY last_name ASC")
+        display_data_query = cursor.execute("SELECT * FROM student_data ORDER BY last_name  ")
         fetch = display_data_query.fetchall()
         for data in fetch:
             self.student_table.insert('', 'end', values=(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]))

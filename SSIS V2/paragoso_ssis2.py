@@ -43,39 +43,57 @@ class App(customtkinter.CTk):
         self.tabview = customtkinter.CTkTabview(self,width=700,height=450)
         self.tabview.configure(fg_color="azure2",segmented_button_fg_color="LightSkyBlue3",segmented_button_selected_color="LightSkyBlue4",segmented_button_unselected_color="LightSkyBlue3",segmented_button_unselected_hover_color="LightSkyBlue4",text_color="white")
         self.tabview.grid(row=1,column=0)
-        self.tabview.add("Add Student")
         self.tabview.add("Add Course")
+        self.tabview.add("Add Student")
         self.tabview.add("List")
+
+#======================================== ADD COURSE TABVIEW ========================================#       
+    # add course form
+        self.addcourse_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="ADD COURSE:",font=("Arial",14,"bold"))
+        self.addcourse_label.place(x=50,y=30)
+        self.coursecode_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course Code:",font=("Arial",14))
+        self.coursecode_label.place(x=50,y=75)
+        self.coursecode_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=150,height=30)
+        self.coursecode_entry.place(x=160,y=75)
+        self.course_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course:",font=("Arial",14))
+        self.course_label.place(x=50,y=130)
+        self.course_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=475,height=30)
+        self.course_entry.place(x=160,y=130)
+    # add course information
+        self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=10,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_course)
+        self.savecourse_btn.place(x=535,y=185)
         
 #======================================== ADD STUDENT TABVIEW ========================================#
     # add student form
+        self.addstudent_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="ADD STUDENT:",font=("Arial",14,"bold"))
+        self.addstudent_label.place(x=50,y=30)
         self.studentID_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Student ID:",font=("Arial",14))
-        self.studentID_label.place(x=50,y=50)
+        self.studentID_label.place(x=50,y=75)
         self.fName_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="First Name:",font=("Arial",14))
-        self.fName_label.place(x=50,y=110)
+        self.fName_label.place(x=50,y=135)
         self.mName_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Middle Name:",font=("Arial",14))
-        self.mName_label.place(x=50,y=170)
+        self.mName_label.place(x=50,y=195)
         self.lName_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Last Name:",font=("Arial",14))
-        self.lName_label.place(x=50,y=230)
+        self.lName_label.place(x=50,y=255)
         self.course_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Course:",font=("Arial",14))
-        self.course_label.place(x=50,y=290)
+        self.course_label.place(x=50,y=315)
         self.ylevel_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Year Level:",font=("Arial",14))
         self.ylevel_label.place(x=360,y=110)
         self.gender_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Gender:",font=("Arial",14))
-        self.gender_label.place(x=360,y=170)
+        self.gender_label.place(x=360,y=165)
         self.contactnum_label = customtkinter.CTkLabel(self.tabview.tab("Add Student"),text="Contact No.",font=("Arial",14))
-        self.contactnum_label.place(x=360,y=230)
+        self.contactnum_label.place(x=360,y=225)
     # add student user-inputs
     # student ID
         self.studentID_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 2021-1574",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=130,height=30)
-        self.studentID_entry.place(x=160,y=50)
+        self.studentID_entry.place(x=160,y=75)
     # student name
         self.fName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. EDA GRACE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.fName_entry.place(x=160,y=110)
+        self.fName_entry.place(x=160,y=135)
         self.mName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. JUTBA",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.mName_entry.place(x=160,y=170)
+        self.mName_entry.place(x=160,y=195)
         self.lName_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. PARAGOSO",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.lName_entry.place(x=160,y=230)
+        self.lName_entry.place(x=160,y=255)
     # student course
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
@@ -85,38 +103,24 @@ class App(customtkinter.CTk):
         conn.commit()
         conn.close()
         self.course_var = tkinter.StringVar(value="Select")
-        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",width=350,values=course_list,variable=self.course_var)
-        self.course_option.place(x=160,y=290)
+        self.course_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",width=300,values=course_list,variable=self.course_var)
+        self.course_option.place(x=160,y=315)
     # student year level
         self.ylevel_var = tkinter.StringVar(value="Select")
         self.ylevel_option = customtkinter.CTkOptionMenu(self.tabview.tab("Add Student"),fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",width=170,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],variable=self.ylevel_var)
         self.ylevel_option.place(x=460,y=110)
      # student gender
-        self.gender_var = tkinter.StringVar(value="Select")
+        self.gender_var = tkinter.StringVar()
         self.female_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="FEMALE",border_color="LightSkyBlue4",variable=self.gender_var,value="FEMALE")
-        self.female_rbtn.place(x=460,y=175)
+        self.female_rbtn.place(x=460,y=170)
         self.male_rbtn = customtkinter.CTkRadioButton(self.tabview.tab("Add Student"),text="MALE",border_color="LightSkyBlue4",variable=self.gender_var,value="MALE")
-        self.male_rbtn.place(x=565,y=175)
+        self.male_rbtn.place(x=565,y=170)
     # student contact number
         self.contactnum_entry = customtkinter.CTkEntry(self.tabview.tab("Add Student"),placeholder_text="e.g. 09351454490",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=170,height=30)
-        self.contactnum_entry.place(x=460,y=230)
+        self.contactnum_entry.place(x=460,y=225)
     # add student information
         self.savebtn = customtkinter.CTkButton(self.tabview.tab("Add Student"),text="Add Student",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=10,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_student)
-        self.savebtn.place(x=528,y=290)
-
-#======================================== ADD COURSE TABVIEW ========================================#       
-    # add course form
-        self.coursecode_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course Code:",font=("Arial",14))
-        self.coursecode_label.place(x=50,y=50)
-        self.coursecode_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=150,height=30)
-        self.coursecode_entry.place(x=160,y=50)
-        self.course_label = customtkinter.CTkLabel(self.tabview.tab("Add Course"),text="Course:",font=("Arial",14))
-        self.course_label.place(x=50,y=110)
-        self.course_entry = customtkinter.CTkEntry(self.tabview.tab("Add Course"),placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=470,height=30)
-        self.course_entry.place(x=160,y=110)
-    # add course information
-        self.savecourse_btn = customtkinter.CTkButton(self.tabview.tab("Add Course"),text="Add Course",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=10,border_color= "LightSkyBlue3",width=100,height=30,command=self.add_course)
-        self.savecourse_btn.place(x=540,y=160)
+        self.savebtn.place(x=528,y=315)
 
 #======================================== LIST TABVIEW ========================================#
         self.studenttab_btn = customtkinter.CTkButton(self.tabview.tab("List"),text="LIST OF STUDENTS",fg_color="LightSkyBlue3",hover_color="LightSkyBlue4",text_color="black",font=("Arial",13,"bold"),corner_radius=10,width=195,height=45,command=self.display_studentlist)
@@ -158,10 +162,10 @@ class App(customtkinter.CTk):
         selected_course = str(self.course_var.get())
         contactnum = self.contactnum_entry.get()
     # input in database
-        if student_id=='' or last_name=='' or first_name=='' or middle_name=='' or selected_gender=='' or selected_ylevel=='' or selected_course=='' or contactnum=='': tkMessageBox.showinfo("Warning","Fill the empty field!")
+        if student_id=='' or last_name=='' or first_name=='' or middle_name=='' or selected_gender=='' or selected_ylevel=='' or selected_course=='' or contactnum=='': tkMessageBox.showwarning("Warning","Please fill the empty field!")
         else:
             if self.student_exists(cursor, student_id):
-                tkMessageBox.showinfo("Error", "A student with the same ID already exists!")
+                tkMessageBox.showerror("Error", "There is already a student with the same student ID in the system!")
             else:
                 data_insert_query = '''INSERT INTO student_data (student_id,last_name,first_name,middle_name,gender,year_level,course,contact_number) VALUES (?,?,?,?,?,?,?,?)'''
                 data_insert_tuple = (student_id,last_name,first_name,middle_name,selected_gender,selected_ylevel,selected_course,contactnum)
@@ -180,6 +184,7 @@ class App(customtkinter.CTk):
         conn.commit()
         if cursor.fetchone():
             return True
+        conn.close()
         return False
         
 #======================================== DISPLAY LIST OF STUDENTS ========================================#
@@ -270,7 +275,7 @@ class App(customtkinter.CTk):
     def display_searchstudent(self,ev):
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor() 
-        if self.searchstudent_var.get() != "":
+        if self.searchstudent_var.get() != "":      
     # clearing current display data
             self.student_table.delete(*self.student_table.get_children())
             display_search_query = cursor.execute("SELECT * FROM student_data WHERE student_id LIKE ? or last_name LIKE ? or first_name LIKE ? or gender LIKE ? or course LIKE ?", ('%' + str(self.searchstudent_var.get()) + '%','%' + str(self.searchstudent_var.get()) + '%','%' + str(self.searchstudent_var.get()) + '%','%' + str(self.searchstudent_var.get()) + '%','%' + str(self.searchstudent_var.get()) + '%',))
@@ -299,9 +304,10 @@ class App(customtkinter.CTk):
                 cursor = conn.cursor() 
                 cursor.execute("DELETE FROM student_data WHERE student_id = '" + str(delete_data)+"'")
                 conn.commit()
+                tkMessageBox.showinfo("Message", "The student is deleted successfully!")
                 conn.close()
             except:
-                tkMessageBox.showinfo("Error","An error has occured")
+                tkMessageBox.showerror("Error","An error has occured")
                 return
         self.update_student_table()
 
@@ -316,24 +322,25 @@ class App(customtkinter.CTk):
         selected_id = self.student_table.focus()
         id_details = str(self.student_table.item(selected_id)['values'][0])
         student_id = str(id_details)
-        cursor.execute('''UPDATE student_data SET student_id = :student,last_name = :last_name,first_name = :first_name,middle_name = :middle,
+        cursor.execute('''UPDATE student_data SET last_name = :last_name,first_name = :first_name,middle_name = :middle,
             gender = :gender,year_level = :year_level,course = :course,contact_number = :contact WHERE student_id = :student_id''',
-                {'student': self.studentID_entry.get(),'last_name': self.lName_entry.get().upper(),'first_name': self.fName_entry.get().upper(),'middle': self.mName_entry.get().upper(),
-                    'gender': self.gender_entry.get().upper(),'year_level': self.ylevel_entry.get().upper(),'course': self.course_option.get(),'contact': self.contactnum_entry.get(),'student_id': student_id})
+                {'last_name': self.lName_entry.get().upper(),'first_name': self.fName_entry.get().upper(),'middle': self.mName_entry.get().upper(),
+                    'gender': self.gender_var.get(),'year_level': self.ylevel_var.get(),'course': self.course_var.get(),'contact': self.contactnum_entry.get(),'student_id': student_id})
         conn.commit()
         conn.close()
         tkMessageBox.showinfo("Message","The edited information has been updated successfully!")
+        self.update_student_table()
         self.edit_window.destroy()
 
 #======================================== EDIT STUDENT RECORD ========================================#
     def edit_student_data(self):
-        if not self.student_table.selection():
+        if not self.student_table.selection():      
             tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
             return
         
         self.edit_window = Toplevel(self)
         self.edit_window.title("Edit Student Information")
-        self.edit_window.geometry("870x470+0+0")
+        self.edit_window.geometry("890x470+0+0")
 
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
@@ -342,10 +349,10 @@ class App(customtkinter.CTk):
         cursor.execute("SELECT * FROM student_data WHERE student_id = '" + str(id_details)+"'")
         data = cursor.fetchall()
     # global variables for the entries
-        global studentID_entry; global fName_entry; global mName_entry; global lName_entry; global gender_entry; global ylevel_entry; global course_entry; global contactnum_entry
+        global fName_entry; global mName_entry; global lName_entry; global gender_var; global ylevel_var; global course_var; global contactnum_entry
     # edit student form
-        self.studentID_label = customtkinter.CTkLabel(self.edit_window,text="Student ID:",font=("Arial",14))
-        self.studentID_label.place(x=50,y=50)
+        self.studentinfo_label = customtkinter.CTkLabel(self.edit_window,text="Student Information:",font=("Arial",14,"bold"))
+        self.studentinfo_label.place(x=50,y=50)
         self.fName_label = customtkinter.CTkLabel(self.edit_window,text="First Name:",font=("Arial",14))
         self.fName_label.place(x=50,y=110)
         self.mName_label = customtkinter.CTkLabel(self.edit_window,text="Middle Name:",font=("Arial",14))
@@ -361,9 +368,6 @@ class App(customtkinter.CTk):
         self.contactnum_label = customtkinter.CTkLabel(self.edit_window,text="Contact No.",font=("Arial",14))
         self.contactnum_label.place(x=380,y=230)
     # edit student user-inputs
-    # student ID
-        self.studentID_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2021-1574",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.studentID_entry.place(x=160,y=50)
     # student name
         self.fName_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. EDA GRACE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
         self.fName_entry.place(x=160,y=110)
@@ -378,25 +382,28 @@ class App(customtkinter.CTk):
         self.course_option = customtkinter.CTkComboBox(self.edit_window, fg_color="LightSkyBlue4", button_color="LightSkyBlue3", button_hover_color="LightSkyBlue3", text_color="white", dropdown_fg_color="azure2", dropdown_hover_color="LightSkyBlue3", width=350, values=course_list, variable=self.course_var)
         self.course_option.place(x=120, y=290)
     # student gender
-        self.gender_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. FEMALE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.gender_entry.place(x=480,y=110)
+        self.gender_var = tkinter.StringVar()
+        self.female_rbtn = customtkinter.CTkRadioButton(self.edit_window,text="FEMALE",border_color="LightSkyBlue4",variable=self.gender_var,value="FEMALE")
+        self.female_rbtn.place(x=480,y=115)
+        self.male_rbtn = customtkinter.CTkRadioButton(self.edit_window,text="MALE",border_color="LightSkyBlue4",variable=self.gender_var,value="MALE")
+        self.male_rbtn.place(x=590,y=115)
     # student year level
-        self.ylevel_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 2ND YEAR",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
-        self.ylevel_entry.place(x=480,y=170)
+        self.ylevel_var = tkinter.StringVar()
+        self.ylevel_option = customtkinter.CTkOptionMenu(self.edit_window,fg_color="LightSkyBlue4",button_color="LightSkyBlue3",button_hover_color="LightSkyBlue3",text_color="white",dropdown_fg_color="azure2",dropdown_hover_color="LightSkyBlue3",width=175,values=["1ST YEAR","2ND YEAR","3RD YEAR","4TH YEAR"],variable=self.ylevel_var)
+        self.ylevel_option.place(x=480,y=170)
     # student contact number
-        self.contactnum_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 09351454490",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=160,height=30)
+        self.contactnum_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. 09351454490",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=175,height=30)
         self.contactnum_entry.place(x=480,y=230)
     # a button to save student information
         self.savebtn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=10,border_color= "LightSkyBlue3",width=100,height=30,command=self.update_student_data)
-        self.savebtn.place(x=530,y=290) 
+        self.savebtn.place(x=560,y=290) 
     # loop through results 
         for selected_data in data:
-            self.studentID_entry.insert(0,selected_data[0])
             self.lName_entry.insert(0,selected_data[1])
             self.fName_entry.insert(0,selected_data[2])
             self.mName_entry.insert(0,selected_data[3])
-            self.gender_entry.insert(0,selected_data[4])
-            self.ylevel_entry.insert(0,selected_data[5])
+            self.gender_var.set(selected_data[4])
+            self.ylevel_var.set(selected_data[5])
             self.course_var.set(selected_data[6])
             self.contactnum_entry.insert(0,selected_data[7])
 
@@ -466,15 +473,30 @@ class App(customtkinter.CTk):
         course_code = self.coursecode_entry.get().upper()
         course = self.course_entry.get().upper()
     # input in database
-        if course_code=='' or course=='': tkMessageBox.showinfo("Warning","Fill the empty field!")
+        if course_code=='' or course=='': tkMessageBox.showwarning("Warning","Fill the empty field!")
         else:
-            data_insert_query = '''INSERT INTO courses (course_code,course) VALUES (?,?)'''
-            data_insert_tuple = (course_code,course)
-            tkMessageBox.showinfo("Message","Course added successfully")
-            cursor.execute(data_insert_query,data_insert_tuple)
-            conn.commit()
+            if self.course_exists(cursor, course_code,course):
+                tkMessageBox.showerror("Error", "The course cannot be added. It already exists!")
+            else:
+                data_insert_query = '''INSERT INTO courses (course_code,course) VALUES (?,?)'''
+                data_insert_tuple = (course_code,course)
+                tkMessageBox.showinfo("Message","Course added successfully")
+                cursor.execute(data_insert_query,data_insert_tuple)
+                conn.commit()
         conn.close()
         self.clear_course_inputs()
+    
+    # Check if a course with the same code already exists in the database
+    def course_exists(self, cursor, course_code,course):
+        conn = sqlite3.connect('studentdata.db')
+        cursor = conn.cursor()
+        query = '''SELECT * FROM courses WHERE course_code = ? or course = ?'''
+        cursor.execute(query, (course_code,course))
+        conn.commit()
+        if cursor.fetchone():
+            return True
+        conn.close()
+        return False
 
 #======================================== UPDATE COURSE LIST ON THE TABLE ========================================#
     def update_course_table(self):
@@ -508,7 +530,7 @@ class App(customtkinter.CTk):
 #======================================== DELETE COURSE ========================================#
     def delete_course(self):
         if not self.course_table.selection():
-            tkMessageBox.showerror("Error", "No item selected. Please select a student from the table.")
+            tkMessageBox.showerror("Error", "No item selected. Please select a course from the table.")
             return
         
         decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected data?")
@@ -523,14 +545,14 @@ class App(customtkinter.CTk):
                 cursor.execute("SELECT COUNT(*) FROM student_data WHERE course = ?", (delete_data,))
                 count = cursor.fetchone()[0]
                 if count > 0:
-                    tkMessageBox.showinfo("Error", "The course is associated with a student data. Unable to delete.")
-                    conn.close()
+                    tkMessageBox.showwarning("Warning", "There are students enrolled in this course. Course cannot be deleted.")
                     return
                 cursor.execute("DELETE FROM courses WHERE course_code = ?", (delete_data,))
                 conn.commit()
                 conn.close()
+                tkMessageBox.showinfo("Message", "The course has been deleted successfully!")
             except:
-                tkMessageBox.showinfo("Error", "An error has occurred")
+                tkMessageBox.showerror("Error", "An error has occurred")
                 return
         self.update_course_table()
 
@@ -546,18 +568,28 @@ class App(customtkinter.CTk):
         selected_code = self.course_table.focus()
         code_details = str(self.course_table.item(selected_code)['values'][0])
         course_data = str(code_details)
-        new_course_code = self.coursecode_entry.get().upper()
         new_course = self.course_entry.get().upper()
+        if self.coursename_exists(cursor,new_course):
+                tkMessageBox.showerror("Error", "The course cannot be added. It already exists!")
+        else:
     # Update course in the courses table
-        cursor.execute('''UPDATE courses SET course_code = :new_course_code, course = :new_course WHERE course_code = :course_code''',
-                    {'new_course_code': new_course_code, 'new_course': new_course, 'course_code': course_data})
-    # Update course in the student_data table
-        cursor.execute('''UPDATE student_data SET course = :new_course_code WHERE course = :course''',
-                    {'new_course_code': new_course_code, 'course': course_data})
-        tkMessageBox.showinfo("Message", "The course was updated successfully!")
-        conn.commit()
+            cursor.execute('''UPDATE courses SET course = :new_course WHERE course_code = :course_code''',{'new_course': new_course, 'course_code': course_data})
+            tkMessageBox.showinfo("Message", "The changes have been saved successfully!")
+            conn.commit()
         conn.close()    
+        self.update_course_table()
         self.edit_window.destroy()
+    
+    def coursename_exists(self, cursor,course):
+        conn = sqlite3.connect('studentdata.db')
+        cursor = conn.cursor()
+        query = '''SELECT * FROM courses WHERE course = ?'''
+        cursor.execute(query, (course,))
+        conn.commit()
+        if cursor.fetchone():
+            return True
+        conn.close()
+        return False
 
 #======================================== EDIT COURSE RECORD ========================================#
     def edit_course_data(self):
@@ -577,12 +609,8 @@ class App(customtkinter.CTk):
         cursor.execute("SELECT * FROM courses WHERE course_code = '" + str(code_details)+"'")
         data = cursor.fetchall()
     # global variables for the entries
-        global coursecode_entry; global course_entry
+        global course_entry
     # add course form
-        self.coursecode_label = customtkinter.CTkLabel(self.edit_window,text="Course Code:",font=("Arial",12))
-        self.coursecode_label.place(x=25,y=100)
-        self.coursecode_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BSCS",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=200,height=30)
-        self.coursecode_entry.place(x=110,y=100)
         self.course_label = customtkinter.CTkLabel(self.edit_window,text="Course:",font=("Arial",12))
         self.course_label.place(x=25,y=50)
         self.course_entry = customtkinter.CTkEntry(self.edit_window,placeholder_text="e.g. BACHELOR OF SCIENCE IN COMPUTER SCIENCE",placeholder_text_color="LightSkyBlue4",border_color="LightSkyBlue4",width=450,height=30)
@@ -592,7 +620,6 @@ class App(customtkinter.CTk):
         self.savecourse_btn.place(x=426,y=100)    
     # loop through results 
         for selected_data in data:
-            self.coursecode_entry.insert(0,selected_data[0])
             self.course_entry.insert(0,selected_data[1])
 
 if __name__ == "__main__":

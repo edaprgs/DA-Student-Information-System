@@ -396,7 +396,7 @@ class App(customtkinter.CTk):
         self.contactnum_entry.place(x=480,y=230)
     # a button to save student information
         self.savebtn = customtkinter.CTkButton(self.edit_window,text="Save Changes",text_color=("black","white"),fg_color="LightSkyBlue3",border_width=2,hover= True,hover_color= "LightSkyBlue4",corner_radius=10,border_color= "LightSkyBlue3",width=100,height=30,command=self.update_student_data)
-        self.savebtn.place(x=560,y=290) 
+        self.savebtn.place(x=552,y=290) 
     # loop through results 
         for selected_data in data:
             self.lName_entry.insert(0,selected_data[1])

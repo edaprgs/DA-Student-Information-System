@@ -486,12 +486,14 @@ class App(customtkinter.CTk):
         conn.close()
         self.clear_course_inputs()
     
-    # Check if a course with the same code already exists in the database
+    # Check if a course with the same code and name already exists in the database
     def course_exists(self, cursor, course_code,course):
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
-        query = '''SELECT * FROM courses WHERE course_code = ? or course = ?'''
-        cursor.execute(query, (course_code,course))
+        query = '''SELECT * FROM courses WHERE course_code = ? or course LIKE ?'''
+        search_term = '%' + course + '%'
+        cursor.execute(query, (course_code, search_term))
+        #cursor.execute(query, (course_code,course))
         conn.commit()
         if cursor.fetchone():
             return True

@@ -132,7 +132,7 @@ class App(customtkinter.CTk):
     def table_style(self):
         style=ttk.Style()
         style.theme_use("vista")
-        style.configure("Treeview",bg="lightgray",fg="white",rowheight=35,fieldbackground="lightgray")
+        style.configure("Treeview",background="white",foreground="black",rowheight=35,fieldbackground="white")
         style.configure("Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
         style.configure("Treeview", highlightthickness=0, bd=0, font=('Calibri', 12)) # Modify the font of the body
         style.layout("Treeview", [('Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
@@ -535,7 +535,7 @@ class App(customtkinter.CTk):
             tkMessageBox.showerror("Error", "No item selected. Please select a course from the table.")
             return
         
-        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected data?")
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected couurse?")
         if decision != 'yes':
             return
         else:

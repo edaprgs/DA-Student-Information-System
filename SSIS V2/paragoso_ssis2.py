@@ -22,11 +22,24 @@ class App(customtkinter.CTk):
         conn = sqlite3.connect('studentdata.db')
         cursor = conn.cursor()
     # create student table 
-        create_studenttable = '''CREATE TABLE IF NOT EXISTS student_data(student_id TEXT NOT NULL PRIMARY KEY,last_name TEXT NOT NULL,first_name TEXT NOT NULL,middle_name TEXT NOT NULL,
-                        gender TEXT NOT NULL,year_level TEXT NOT NULL,course TEXT NOT NULL,contact_number INTEGER,registration_date TEXT DEFAULT CURRENT_TIMESTAMP)'''
+        create_studenttable = '''CREATE TABLE IF NOT EXISTS student_data (
+                                "student_id"	TEXT NOT NULL,
+                                "last_name"	TEXT NOT NULL,
+                                "first_name"	TEXT NOT NULL,
+                                "middle_name"	TEXT NOT NULL,
+                                "gender"	TEXT NOT NULL,
+                                "year_level"	TEXT NOT NULL,
+                                "course"	TEXT NOT NULL,
+                                "contact_number"	INTEGER,
+                                "registration_date"	TEXT DEFAULT CURRENT_TIMESTAMP,
+                                PRIMARY KEY("student_id"),
+                                FOREIGN KEY("course") REFERENCES "courses"("course_code"))'''
         conn.execute(create_studenttable)
     # create course table 
-        create_coursetable = '''CREATE TABLE IF NOT EXISTS courses(course_code TEXT NOT NULL PRIMARY KEY,course TEXT NOT NULL)'''
+        create_coursetable = '''CREATE TABLE IF NOT EXISTS courses (
+                                "course_code"	TEXT NOT NULL,
+                                "course"	TEXT NOT NULL,
+                                PRIMARY KEY("course_code"))'''
         conn.execute(create_coursetable)
         conn.commit()
         conn.close()

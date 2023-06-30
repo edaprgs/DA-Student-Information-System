@@ -548,7 +548,7 @@ class App(customtkinter.CTk):
             tkMessageBox.showerror("Error", "No item selected. Please select a course from the table.")
             return
         
-        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected couurse?")
+        decision = tkMessageBox.askquestion("Warning", "Are you sure you want to delete the selected course?")
         if decision != 'yes':
             return
         else:

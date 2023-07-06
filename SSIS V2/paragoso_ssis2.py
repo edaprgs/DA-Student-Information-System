@@ -1,4 +1,4 @@
-# Eda Grace J. Paragoso 2021-15745
+# Eda Grace J. Paragoso 2021-1574
 #======================================== STUDENT INFORMATION SYSTEM V.2 ========================================#
 import tkinter
 import tkinter as tk
